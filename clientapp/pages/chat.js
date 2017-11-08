@@ -10,6 +10,7 @@ var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
 var htmlify = require('../helpers/htmlify');
 var attachMediaStream = require('attachmediastream');
+//var emoji = require('emojione');
 
 
 module.exports = BasePage.extend({
@@ -148,6 +149,7 @@ module.exports = BasePage.extend({
                 this.paused = false;
                 this.$chatInput.addClass('typing');
                 this.sendChatState('composing');
+//		this.$chatInput.val(emoji.toImage(this.$chatInput.val()));
             }
         }
     },

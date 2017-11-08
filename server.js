@@ -6,9 +6,10 @@ var helmet = require('helmet');
 var xssFilter = require('x-xss-protection');
 var frameguard = require('frameguard');
 var config = require('getconfig');
-var templatizer = require('templatizer');
+var puglatizer = require('puglatizer');
 var async = require('async');
 var LDAP = require('ldapjs');
+var pug = require('pug');
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -31,8 +32,8 @@ app.use(helmet.noSniff());
 
 var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
 
+app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
 
 app.get('/login', function (req, res) {
     res.render("login", {"config": config.server});
@@ -346,7 +347,7 @@ var clientApp = new Moonboots({
             __dirname + '/clientapp/libraries/jquery-impromptu.js'
         ],
         browserify: {
-            debug: false
+            debug: true
         },
         stylesheets: [
             __dirname + '/public/css/client.css',
@@ -354,9 +355,10 @@ var clientApp = new Moonboots({
             __dirname + '/public/css/jquery-impromptu.css'
         ],
         beforeBuildJS: function () {
-            if (config.isDev) {
+            if (config.isDev && 1 == 2) {
                 var clientFolder = __dirname + '/clientapp';
-                templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+		pug.compileDebug = true;
+                puglatizer(clientFolder + '/templates', clientFolder + '/templates.js', pug);
             }
         }
     },

@@ -6,6 +6,9 @@ var uuid = require('node-uuid');
 var HumanModel = require('human-model');
 var templates = require('../templates');
 var htmlify = require('../helpers/htmlify');
+var emoji = require('emojione');
+emoji.ascii = true;
+
 
 var ID_CACHE = {};
 
@@ -113,7 +116,7 @@ var Message = module.exports = HumanModel.define({
                     if (this.meAction) {
                         body = body.substr(4);
                     }
-                    body = htmlify.toHTML(body);
+                    body = emoji.toImage(htmlify.toHTML(body));
                     for (var i = 0; i < this.mentions.length; i++) {
                         var existing = htmlify.toHTML(this.mentions[i]);
                         var parts = body.split(existing);
